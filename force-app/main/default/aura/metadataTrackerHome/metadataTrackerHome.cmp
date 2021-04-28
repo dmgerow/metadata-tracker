@@ -1,0 +1,10 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" access="global">
+    <lightning:layout>
+        <lightning:layoutItem padding="around-small" size="4">
+            <c:metadataTracker />
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="8">
+            <c:help />
+        </lightning:layoutItem>
+    </lightning:layout>
+</aura:component>

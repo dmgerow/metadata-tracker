@@ -1,0 +1,49 @@
+<aura:component controller="PackageGeneratorController">
+
+    <!-- Button Attributes -->
+    <aura:attribute name="buttonDisabled" type="Boolean" default="false" />
+
+    <!-- Package search attributes -->
+    <aura:attribute name="lowerBound" type="Date" />
+    <aura:attribute name="upperBound" type="Date" />
+    <aura:attribute name="context" type="String" default="all" />
+
+    <!-- Events -->
+    <aura:registerEvent name="closePackageGeneratorEvent" type="c:closePackageGenerator" />
+
+    <div class="demo-only" style="height: 640px;">
+        <section role="dialog" tabindex="-1" aria-labelledby="package-gen-header" aria-modal="true"
+            aria-describedby="package-gen-body" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <h2 id="package-gen-header" class="slds-text-heading_medium slds-hyphenate">Package Generator</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium" id="package-gen-body">
+                    <lightning:tabset selectedTabId="{!v.context}" onselect="{! c.doValidateInputs }">
+                        <lightning:tab label="All Items" id="all">
+                            <p>All tracked metadata will be added to the package</p>
+                        </lightning:tab>
+                        <lightning:tab label="Date Bound" id="date">
+                            <p>Tracked metadata that has been modified within the specified date range will be added to
+                                the package</p>
+                            <p class="slds-text-body_small slds-m-bottom_x-small slds-m-top_x-small">
+                                <i>All dates are lower and upper bound inclusive</i>
+                            </p>
+                            <lightning:input type="date" name="lowerBound" label="Enter lower bound"
+                                value="{!v.lowerBound}" required="true" onchange="{!c.doValidateInputs}" />
+                            <lightning:input type="date" name="upperBound" label="Enter upper bound"
+                                value="{!v.upperBound}" required="true" onchange="{!c.doValidateInputs}" />
+                        </lightning:tab>
+                    </lightning:tabset>
+                </div>
+                <footer class="slds-modal__footer">
+                    <lightning:button label="Cancel" onclick="{!c.doClosePackageGenerator}" />
+                    <lightning:button variant="brand" label="Get Packages" disabled="{!v.buttonDisabled}"
+                        onclick="{!c.doGeneratePackageXml}" />
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </div>
+
+</aura:component>

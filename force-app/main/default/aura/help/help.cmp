@@ -1,0 +1,6 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" access="global">
+    <div class="slds-align_absolute-center">
+        <iframe style="width:816px; height:960px; border:none;"
+                src="https://docs.google.com/document/d/e/2PACX-1vSQw2p9z7rUAkr-2OTUJJg-TzfHKxIHimYr51vIiiAK7rFC6FGvfj6_m5aonhJJkCughXewBGwp-Qqi/pub?embedded=true" />
+    </div>
+</aura:component>

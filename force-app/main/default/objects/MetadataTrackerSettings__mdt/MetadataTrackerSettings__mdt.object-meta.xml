@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Contains configuration settings for the metadata tracker</description>
+    <label>Metadata Tracker Setting</label>
+    <pluralLabel>Metadata Tracker Settings</pluralLabel>
+    <visibility>Protected</visibility>
+</CustomObject>

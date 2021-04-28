@@ -1,0 +1,151 @@
+<aura:component
+  implements="flexipage:availableForAllPageTypes"
+  controller="MetadataTrackerController"
+  access="global"
+>
+  <!-- JS Resources -->
+  <ltng:require scripts="{!$Resource.fusejs}" />
+
+  <!-- Settings -->
+  <aura:attribute name="settings" type="Map" />
+
+  <!-- Spinner Attributes -->
+  <aura:attribute name="loading" type="Boolean" default="false" />
+
+  <!-- Package Generator Attributes -->
+  <aura:attribute name="showPackageGenerator" type="Boolean" default="false" />
+  <aura:attribute name="showFeedback" type="Boolean" default="false" />
+
+  <!-- Global Describe Attributes -->
+  <aura:attribute name="metadataTypes" type="List" />
+  <aura:attribute
+    name="selectedMetadataType"
+    type="String"
+    default="--Select Metadata Type--"
+  />
+
+  <!-- Data Attributes -->
+  <aura:attribute name="sizeLimitReached" type="Boolean" default="false" />
+  <aura:attribute name="metadataFiles" type="Object" />
+  <aura:attribute name="filteredFiles" type="Object" />
+
+  <!-- Table Attributes -->
+  <aura:attribute name="sortedBy" type="String" />
+  <aura:attribute name="sortedDirection" type="String" />
+  <aura:attribute name="columns" type="List" />
+  <aura:attribute name="totalResultLength" type="Integer" default="0" />
+  <aura:attribute name="maxResultLength" type="Integer" default="150" />
+
+  <!-- Handlers -->
+  <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
+  <!-- Events -->
+  <aura:handler
+    name="closePackageGeneratorEvent"
+    event="c:closePackageGenerator"
+    action="{!c.doClosePackageGenerator}"
+  />
+  <aura:handler
+    name="closeFeedback"
+    event="c:closeFeedback"
+    action="{!c.doCloseFeedback}"
+  />
+
+  <!-- Body -->
+  <aura:if isTrue="{! v.sizeLimitReached }">
+    <div
+      class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_warning"
+      role="alert"
+    >
+      <h2>
+        There are more than {!v.settings.MaxResultSize__c} components. Currently
+        tracked metadata will not be fetched, but changes can still be tracked.
+      </h2>
+    </div>
+  </aura:if>
+  <lightning:card>
+    <aura:set attribute="title">
+      <lightning:icon iconName="action:apex" size="x-small" />
+      Find Metadata
+    </aura:set>
+    <aura:set attribute="actions">
+      <lightning:buttonGroup>
+        <lightning:button
+          label="Get Packages"
+          onclick="{!c.doShowPackageGenerator}"
+        />
+        <lightning:buttonIcon
+          iconName="utility:smiley_and_people"
+          variant="feedback"
+          onclick="{! c.doShowFeedback }"
+          alternativeText="Feedback"
+        />
+      </lightning:buttonGroup>
+    </aura:set>
+    <iframe
+      aura:id="vfFrame"
+      src="/apex/ListMetadata"
+      height="0px"
+      style="visibility: hidden"
+    />
+
+    <div class="slds-card__body slds-card__body_inner">
+      <aura:if isTrue="{! v.loading }">
+        <lightning:spinner alternativeText="Loading" />
+      </aura:if>
+      <lightning:select
+        name="metadataType"
+        label="Select a metadata type:"
+        aura:id="metadataType"
+        value="{!v.selectedMetadataType}"
+        onchange="{!c.doDescribeSingle}"
+      >
+        <aura:iteration items="{!v.metadataTypes}" var="metadataType">
+          <option
+            value="{!metadataType}"
+            selected="{!metadataType==v.selectedMetadataType}"
+          >
+            {!metadataType}
+          </option>
+        </aura:iteration>
+      </lightning:select>
+
+      <aura:if isTrue="{! v.metadataFiles.length > 0 }">
+        <div onkeyup="{!c.doSearch}">
+          <lightning:input
+            type="text"
+            name="search"
+            label="Search (hit enter to execute)"
+            placeholder="Search"
+            aura:id="search-bar"
+          />
+        </div>
+        <p class="slds-text-align_right">
+          Displaying {! v.filteredFiles.length } of {! v.totalResultLength }
+          results.
+        </p>
+        <div class="slds-scrollable_y" style="height: 20rem">
+          <lightning:datatable
+            hideCheckboxColumn="true"
+            columns="{! v.columns }"
+            data="{! v.filteredFiles }"
+            keyField="name"
+            onrowaction="{! c.handleRowAction }"
+            aura:id="metadata-table"
+            onsort="{! c.doUpdateColumnSorting }"
+            sortedBy="{! v.sortedBy }"
+            sortedDirection="{! v.sortedDirection }"
+          />
+        </div>
+      </aura:if>
+    </div>
+  </lightning:card>
+
+  <aura:if isTrue="{! v.showFeedback }">
+    <c:feedback />
+  </aura:if>
+
+  <aura:if isTrue="{! v.showPackageGenerator }">
+    <c:packageGenerator />
+  </aura:if>
+</aura:component>

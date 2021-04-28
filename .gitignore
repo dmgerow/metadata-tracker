@@ -1,0 +1,9 @@
+settings.json
+apex.db
+.sfdx
+.vscode
+src
+
+\.DS_Store
+.localdevserver
+jsconfig.json

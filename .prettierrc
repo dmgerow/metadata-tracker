@@ -1,0 +1,23 @@
+{
+  "trailingComma": "none",
+  "overrides": [
+    {
+      "files": "**/lwc/**/*.html",
+      "options": { "parser": "lwc" }
+    },
+    {
+      "files": "*.{cmp,page,component}",
+      "options": { "parser": "html" }
+    },
+    {
+      "files": "*.{cls,trigger}",
+      "options": {
+        "tabWidth": 4,
+        "printWidth": 100,
+        "useTabs": false,
+        "endOfLine": "lf",
+        "requirePragma": true
+      }
+    }
+  ]
+}

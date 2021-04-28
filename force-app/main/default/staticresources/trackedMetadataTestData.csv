@@ -1,0 +1,6 @@
+Type__c,Name,ExternalId__c,IsDestructive__c
+CustomField,MetadataFile__c.PackageFormatting__c,CustomField|MetadataFile__c.PackageFormatting__c,FALSE
+CustomField,MetadataFile__c.ExternalId__c,CustomField|MetadataFile__c.ExternalId__c,FALSE
+CustomObject,Activity,CustomObject|Activity,FALSE
+CustomField,MetadataFile__c.Type__c,CustomField|MetadataFile__c.Type__c,TRUE
+CustomObject,Account,CustomObject|Account,FALSE

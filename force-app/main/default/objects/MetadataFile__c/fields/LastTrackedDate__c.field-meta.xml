@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>LastTrackedDate__c</fullName>
+    <description>The last time that this piece of metadata was tracked</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The last time that this piece of metadata was tracked</inlineHelpText>
+    <label>Last Tracked Date</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Date</type>
+</CustomField>

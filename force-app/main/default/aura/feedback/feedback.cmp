@@ -1,0 +1,31 @@
+<aura:component controller="FeedbackController">
+
+    <!-- Button Attributes -->
+    <aura:attribute name="buttonDisabled" type="Boolean" default="true" />
+
+    <aura:attribute name="body" type="String"/>
+
+    <!-- Events -->
+    <aura:registerEvent name="closeFeedback" type="c:closeFeedback" />
+
+    <div class="demo-only" style="height: 640px;">
+        <section role="dialog" tabindex="-1" aria-labelledby="feedback-header" aria-modal="true" aria-describedby="feedback-body"
+            class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <h2 id="feedback-header" class="slds-text-heading_medium slds-hyphenate">Submit Feedback</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium" id="feedback-body">
+                    <lightning:textarea name="body" label="Description"
+                        placeholder="Enter description here" value="{!v.body}" onchange="{!c.doValidateBody}"/>
+                </div>
+                <footer class="slds-modal__footer">
+                    <lightning:button label="Cancel" onclick="{!c.doCloseFeedback}" />
+                    <lightning:button variant="brand" label="Submit" disabled="{!v.buttonDisabled}" onclick="{!c.doSubmitFeedback}" />
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </div>
+
+</aura:component>

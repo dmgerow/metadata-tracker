@@ -1,0 +1,153 @@
+<apex:component controller="ListMetadataController">
+    <apex:includeScript value="{!URLFOR($Resource.jsforce)}" />
+    <script>
+        var apiVersion = "51.0";
+        var defaultMetadataType = "CustomObject";
+        var lexOrigin = '{!baseUrl}';
+        var conn = new jsforce.Connection({ accessToken: '{!$API.Session_Id}' });
+        var standardValueSets = ["AccountContactMultiRoles", "AccountContactRole", "AccountOwnership",
+            "AccountRating", "AccountType", "AssetStatus", "CampaignMemberStatus", "CampaignStatus",
+            "CampaignType", "CaseContactRole", "CaseOrigin", "CasePriority", "CaseReason", "CaseStatus",
+            "CaseType", "ContactRole", "ContractContactRole", "ContractStatus", "EntitlementType",
+            "EventSubject", "EventType", "FiscalYearPeriodName", "FiscalYearPeriodPrefix",
+            "FiscalYearQuarterName", "FiscalYearQuarterPrefix", "IdeaCategory1", "IdeaMultiCategory",
+            "IdeaStatus", "IdeaThemeStatus", "Industry", "LeadSource", "LeadStatus", "OpportunityCompetitor",
+            "OpportunityStage", "OpportunityType", "OrderStatus", "OrderType", "PartnerRole", "Product2Family",
+            "QuestionOrigin1", "QuickTextCategory", "QuickTextChannel", "QuoteStatus", "RoleInTerritory2",
+            "SalesTeamRole", "Salutation", "ServiceContractApprovalStatus", "SocialPostClassification",
+            "SocialPostEngagementLevel", "SocialPostReviewedStatus", "SolutionStatus", "TaskPriority",
+            "TaskStatus", "TaskSubject", "TaskType", "WorkOrderLineItemStatus", "WorkOrderPriority",
+            "WorkOrderStatus"];
+
+        console.log("listMetadta.component onload origin: " + lexOrigin);
+
+        doDescribeGlobal();
+
+        async function doDescribeGlobal() {
+            let metadata = await conn.metadata.describe(apiVersion);
+            var metadataTypes = ["--Select Metadata Type--"];
+            metadata.metadataObjects.forEach(function (element) {
+                metadataTypes.push(element.xmlName);
+                if (element.childXmlNames) {
+                    metadataTypes.push(...element.childXmlNames);
+                }
+            });
+            var response = {
+                type: "global",
+                data: [...new Set(metadataTypes)]
+            };
+            parent.postMessage(response, lexOrigin);
+        }
+
+        async function doDescribeSingle(metadataType) {
+            var metadataArray = [];
+            if (metadataType == "StandardValueSet") {
+                standardValueSets.forEach(function (value) {
+                    var valueSetMetadata = new Object();
+                    valueSetMetadata["type"] = metadataType;
+                    valueSetMetadata["fullName"] = value;
+                    valueSetMetadata["namespacePrefix"] = "";
+                    metadataArray.push(valueSetMetadata);
+                });
+            } else {
+                var types = await getTypesArray(metadataType);
+                var promises = [];
+                types.forEach(function (type) {
+                    promises.push(conn.metadata.list(type, apiVersion));
+                });
+                var resultArray = await Promise.all(promises);
+                resultArray.forEach(function (metadata) {
+                    metadataArray.push.apply(metadataArray, convertResultToArray(metadata, metadataType));
+                });
+            }
+            var response = {
+                type: "single",
+                data: metadataArray.length > 0 ? metadataArray : undefined
+            };
+            parent.postMessage(response, lexOrigin);
+        }
+
+        async function getTypesArray(metadataType) {
+            var folderedTypes = ['Report', 'Dashboard', 'Document', 'EmailTemplate'];
+            var typesArray = [];
+            if (folderedTypes.includes(metadataType)) {
+                var folders = await getFoldersForMetadataType(metadataType);
+                folders.forEach(function (folder) {
+                    var type = new Object();
+                    type["type"] = metadataType;
+                    type["folder"] = folder;
+                    typesArray.push(type);
+                });
+            } else {
+                var type = new Object();
+                type["type"] = metadataType;
+                typesArray.push(type);
+            }
+            return typesArray;
+        }
+
+        async function getFoldersForMetadataType(metadataType) {
+            var folderTypeName = metadataType + 'Folder';
+            if (metadataType === 'EmailTemplate') {
+                folderTypeName = 'EmailFolder';
+            }
+
+            var folders = [];
+            var types = [{
+                type: folderTypeName
+            }];
+            var metadata = await conn.metadata.list(types, apiVersion);
+            var metadataArray = convertResultToArray(metadata, metadataType);
+            metadataArray.forEach(function (folder) {
+                folders.push(folder.fullName);
+            });
+            return folders;
+        }
+
+        function convertResultToArray(result, metadataType) {
+            var resultArray = [];
+            if (result && !Array.isArray(result)) {
+                result["type"] = metadataType;
+                resultArray.push(result);
+            } else if (result && Array.isArray(result)) {
+                for (var i = 0; i < result.length; i++) {
+                    result[i]["type"] = metadataType;
+                }
+                resultArray.push.apply(resultArray, result);
+            }
+            return resultArray;
+        }
+
+        function getBaseURL() {
+            var url = location.href;  // entire url including querystring - also: window.location.href;
+            var baseURL = url.substring(0, url.indexOf('/', 14));
+
+            if (baseURL.indexOf('http://localhost') != -1) {
+                // Base Url for localhost
+                var url = location.href;  // window.location.href;
+                var pathname = location.pathname;  // window.location.pathname;
+                var index1 = url.indexOf(pathname);
+                var index2 = url.indexOf("/", index1 + 1);
+                var baseLocalUrl = url.substr(0, index2);
+
+                return baseLocalUrl + "/";
+            }
+            else {
+                // Root Url for domain name
+                return baseURL + "/";
+            }
+
+        }
+
+        window.addEventListener("message", function (event) {
+            console.log("listMetadta.component event origin: " + event.origin);
+            console.log("listMetadta.component lex origin: " + lexOrigin);
+            if (event.origin !== lexOrigin) {
+                console.log("listMetadata.component origin mismatch.");
+                // Not the expected origin: reject message!
+                return;
+            }
+            doDescribeSingle(event.data);
+        }, false);
+    </script>
+</apex:component>
