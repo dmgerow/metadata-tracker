@@ -2,6 +2,8 @@
 
 The Metadata Tracker allows you to track your metadata from within your Salesforce org, making it easier to manage what needs to be deployed during a project.
 
+![metadata tracker screenshot](/content/img/metadata-tracker-screenshot.png)
+
 ## Installation
 
 1. Ensure my domain is enabled (this is needed for any lightning components to render!)
