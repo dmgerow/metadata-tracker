@@ -43,6 +43,8 @@ A: Try adding the component to another app.
 
 ## Technical Setup Notes
 
-To assign yourself the Metadata Tracker Permission Set
+This creates a scratch org, pushes the metadata, and assigns you the correct permission set.
 
-`sfdx force:user:permset:assign -n MetadataTracker`
+```bash
+npm run create:scratch
+```
