@@ -14,7 +14,6 @@ public with sharing class MetadataTrackerController {
         UserSettings__c settings = UserSettings__c.getOrgDefaults();
         if(settings == null || settings.Id == null) {
             settings = CustomSettingsUtility.createDefaultCustomSettingRecord(false);
-            Id jobID = System.enqueueJob(new QueueablePostInstallHandler());
         }
         return JSON.serialize(settings);
     }
