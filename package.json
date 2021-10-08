@@ -4,6 +4,7 @@
   "version": "1.0.0",
   "description": "Salesforce App",
   "scripts": {
+    "create:scratch": "sfdx force:org:create -f config/project-scratch-def.json --setalias cpqquotesharesync --durationdays 7 --setdefaultusername && sfdx force:source:push && sfdx force:user:permset:assign -n MetadataTracker",
     "lint": "npm run lint:lwc && npm run lint:aura",
     "lint:aura": "eslint **/aura/**",
     "lint:lwc": "eslint **/lwc/**",
