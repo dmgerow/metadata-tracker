@@ -2,10 +2,12 @@
   "packageDirectories": [
     {
       "path": "force-app",
+      "package": "Metadata Tracker",
+      "versionName": "Summer '21",
+      "versionNumber": "232.LATEST",
       "default": true
     }
   ],
-  "name": "Metadata Tracker",
   "namespace": "",
   "sfdcLoginUrl": "https://login.salesforce.com",
   "sourceApiVersion": "52.0"
