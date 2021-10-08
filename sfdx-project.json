@@ -8,7 +8,7 @@
       "default": true
     }
   ],
-  "namespace": "",
+  "namespace": "MDTKR2",
   "sfdcLoginUrl": "https://login.salesforce.com",
   "sourceApiVersion": "52.0"
 }

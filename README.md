@@ -12,6 +12,13 @@ The Metadata Tracker allows you to track your metadata from within your Salesfor
 4. Assign the Metadata Tracker Permission Set to your team
 5. Configure the custom settings if you want to do special things (only use org custom settings)
 
+Don't want to install the package? No Problem - just remember that it will overwrite any components that share the same name.
+
+<a href="https://githubsfdeploy.herokuapp.com?owner=dmgerow&repo=metadata-tracker&ref=main">
+<img alt="Deploy to Salesforce"
+          src="https://raw.githubusercontent.com/afawcett/githubsfdeploy/master/deploy.png">
+</a>
+
 ## Usage
 
 The most up to date information in the help component can be found [here](https://docs.google.com/document/d/1Vo7t0vxxUo2qcHiKo7uifm5SY3G8Rd-u41MDNAuKKys/edit#)
