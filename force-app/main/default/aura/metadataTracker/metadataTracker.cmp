@@ -54,7 +54,10 @@
   <!-- Body -->
   <aura:if isTrue="{! v.sizeLimitReached }">
     <div
-      class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_warning"
+      class="
+        slds-notify slds-notify_alert
+        slds-theme_alert-texture slds-theme_warning
+      "
       role="alert"
     >
       <h2>
