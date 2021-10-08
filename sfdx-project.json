@@ -1,20 +1,20 @@
 {
-    "namespace": "",
-    "sfdcLoginUrl": "https://login.salesforce.com",
-    "sourceApiVersion": "51.0",
-    "packageDirectories": [
-        {
-            "path": "force-app",
-            "package": "Metadata Tracker",
-            "versionName": "v1.0.0",
-            "versionNumber": "1.0.0.NEXT",
-            "default": true
-        }
-    ],
-    "packageAliases": {
-        "Metadata Tracker": "0Ho2L0000004CAaSAM",
-        "Metadata Tracker@1.0.0-1": "04t2L000000VXjpQAG",
-        "Metadata Tracker@1.0.0-2": "04t2L000000VXjuQAG",
-        "Metadata Tracker@1.0.0-3": "04t2L000000VXjzQAG"
+  "namespace": "",
+  "sfdcLoginUrl": "https://login.salesforce.com",
+  "sourceApiVersion": "52.0",
+  "packageDirectories": [
+    {
+      "path": "force-app",
+      "package": "Metadata Tracker",
+      "versionName": "v1.0.0",
+      "versionNumber": "1.0.0.NEXT",
+      "default": true
     }
+  ],
+  "packageAliases": {
+    "Metadata Tracker": "0Ho2L0000004CAaSAM",
+    "Metadata Tracker@1.0.0-1": "04t2L000000VXjpQAG",
+    "Metadata Tracker@1.0.0-2": "04t2L000000VXjuQAG",
+    "Metadata Tracker@1.0.0-3": "04t2L000000VXjzQAG"
+  }
 }

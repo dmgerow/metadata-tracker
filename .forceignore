@@ -2,13 +2,13 @@
 # More information: https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_exclude_source.htm
 #
 
-AppSwitcher.appMenu
-Admin.profile-meta.xml
-Security.settings-meta.xml
-*.objectTranslation
 package.xml
-force-app/main/default/profiles/*
-force-app/main/default/settings/*
-**/jsconfig.json
+force-app/main/default/profiles
+force-app/main/default/settings
 
+# LWC configuration files
+**/jsconfig.json
 **/.eslintrc.json
+
+# LWC Jest
+**/__tests__/**
