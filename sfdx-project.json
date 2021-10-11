@@ -3,12 +3,12 @@
     {
       "path": "force-app",
       "package": "Metadata Tracker",
-      "versionName": "Summer '21",
-      "versionNumber": "232.LATEST",
+      "versionName": "Winter '22",
+      "versionNumber": "234.LATEST",
       "default": true
     }
   ],
   "namespace": "MDTKR2",
   "sfdcLoginUrl": "https://login.salesforce.com",
-  "sourceApiVersion": "52.0"
+  "sourceApiVersion": "53.0"
 }

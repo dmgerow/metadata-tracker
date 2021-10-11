@@ -1,7 +1,7 @@
 <apex:component controller="ListMetadataController">
   <apex:includeScript value="{!URLFOR($Resource.jsforce)}" />
   <script>
-    var apiVersion = "52.0";
+    var apiVersion = "53.0";
     var defaultMetadataType = "CustomObject";
     var lexOrigin = "{!baseUrl}";
     var conn = new jsforce.Connection({ accessToken: "{!$API.Session_Id}" });

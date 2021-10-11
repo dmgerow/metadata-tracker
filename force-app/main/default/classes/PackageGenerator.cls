@@ -19,7 +19,7 @@ public with sharing class PackageGenerator {
             }
             type.addChildElement('name', null, null).addTextNode(metadataType);
         }
-        Dom.Xmlnode version = rootNode.addChildElement('version', null, null).addTextNode('52.0');
+        Dom.Xmlnode version = rootNode.addChildElement('version', null, null).addTextNode('53.0');
         return doc.toXmlString();
     }
 
