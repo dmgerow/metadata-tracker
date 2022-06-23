@@ -50,38 +50,41 @@
     this.doSetSpinner(component, true);
     var action = component.get("c.describeSingle");
     console.log(data);
-    action.setParams({ filePropertyString: data });
-    if (component.find("search-bar")) {
-      component.find("search-bar").set("v.value", "");
-    }
-    action.setCallback(this, function (response) {
-      var state = response.getState();
-      if (state === "SUCCESS") {
-        var reponseObject = JSON.parse(response.getReturnValue());
-        reponseObject.files.sort(this.doSortBy("name", 0));
-        component.set("v.metadataFiles", reponseObject.files);
-        component.set("v.totalResultLength", reponseObject.files.length);
-        component.set(
-          "v.filteredFiles",
-          reponseObject.files.slice(0, component.get("v.maxResultLength"))
-        );
-      } else if (state === "ERROR") {
-        var errors = response.getError();
-        if (errors) {
-          if (errors[0] && errors[0].message) {
-            console.log(errors[0].message);
-            this.doFireToastEvent(errors[0].message, "error");
-            component.set("v.metadataFiles", []);
-            component.set("v.filteredFiles", []);
-          }
-        } else {
-          console.log("Unknown error");
-        }
+    
+    if (action !== undefined) {
+      action.setParams({ filePropertyString: data });
+      if (component.find("search-bar")) {
+        component.find("search-bar").set("v.value", "");
       }
-      this.doSetSpinner(component, false);
-    });
+      action.setCallback(this, function (response) {
+        var state = response.getState();
+        if (state === "SUCCESS") {
+          var reponseObject = JSON.parse(response.getReturnValue());
+          reponseObject.files.sort(this.doSortBy("name", 0));
+          component.set("v.metadataFiles", reponseObject.files);
+          component.set("v.totalResultLength", reponseObject.files.length);
+          component.set(
+            "v.filteredFiles",
+            reponseObject.files.slice(0, component.get("v.maxResultLength"))
+          );
+        } else if (state === "ERROR") {
+          var errors = response.getError();
+          if (errors) {
+            if (errors[0] && errors[0].message) {
+              console.log(errors[0].message);
+              this.doFireToastEvent(errors[0].message, "error");
+              component.set("v.metadataFiles", []);
+              component.set("v.filteredFiles", []);
+            }
+          } else {
+            console.log("Unknown error");
+          }
+        }
+        this.doSetSpinner(component, false);
+      });
 
-    $A.enqueueAction(action);
+      $A.enqueueAction(action);
+    }
   },
   doListSingle: function (component, data) {
     this.doSetSpinner(component, true);
